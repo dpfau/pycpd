@@ -1,4 +1,4 @@
-from cpd.fast_gaussian_transform import model, predict
+from cpd.fast_gaussian_transform import *
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -65,19 +65,19 @@ def test_fgt_plot():
   plt.show()
 
 def test_dval_1():
-  d       = 10;
-  Nx      = 100;
-  Ny      = 10000;
-  x       = np.random.randn(d, Nx);
-  y       = np.random.randn(d, Ny);
-  v       = dval(x, y);
+  d       = 10
+  Nx      = 100
+  Ny      = 10000
+  x       = np.random.randn(d, Nx)
+  y       = np.random.randn(d, Ny)
+  v       = dval(x, y)
 
 def test_dval_2():
-  d       = 10;
-  Nx      = 100;
-  Ny      = 10000;
-  x       = np.random.randn(d, Nx);
-  y       = np.random.randn(d, Ny);
-  u       = np.random.rand(1, Nx);
-  sigma   = 2;
-  v       = dval(x, y, u, sigma);
+  d       = 10
+  Nx      = 100
+  Ny      = 10000
+  x       = np.random.randn(d, Nx)
+  y       = np.random.randn(d, Ny)
+  u       = np.random.rand(1, Nx)
+  sigma   = 2
+  v       = dval(x, y, u, sigma)

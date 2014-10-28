@@ -19,4 +19,4 @@
     #define min(a,b) (a <= b ? a : b)
 #endif
 
-void dval(double * , double * , double * , double  , double * , int  , int  , int );
+void c_dval(double * , double * , double * , double  , double * , int  , int  , int );

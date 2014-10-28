@@ -1,8 +1,7 @@
 #distutils: language = c
 #distutils: sources = src/fgt/fgt_model.c src/fgt/fgt_predict.c src/fgt/dval.c
 
-from fast_gaussian_transform cimport fgt_model, fgt_predict
-from fast_gaussian_transform cimport dval as c_dval
+from fast_gaussian_transform cimport *
 import numpy as np
 cimport numpy as np
 

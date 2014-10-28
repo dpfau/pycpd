@@ -4,7 +4,7 @@
   Modified for Python by David PFAU : david.pfau@gmail.com
 */
 
-void dval(double *x , double *y , double *w , double sigma , double *v , int d , int Nx , int Ny )
+void c_dval(double *x , double *y , double *w , double sigma , double *v , int d , int Nx , int Ny )
 {
   int i , j , l , id , jd;  
   register double temp , res ;
