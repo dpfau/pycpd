@@ -1,7 +1,8 @@
 #distutils: language = c
-#distutils: sources = src/fgt/fgt_model.c src/fgt/fgt_predict.c
+#distutils: sources = src/fgt/fgt_model.c src/fgt/fgt_predict.c src/fgt/dval.c
 
-from fast_gaussian_transform cimport *
+from fast_gaussian_transform cimport fgt_model, fgt_predict
+from fast_gaussian_transform cimport dval as c_dval
 import numpy as np
 cimport numpy as np
 
@@ -80,8 +81,7 @@ cpdef model(np.ndarray[np.double_t, ndim=2] x,
     w = np.ones([1,Nx], dtype=np.double)
   else:
     assert w.dtype == np.double and w.ndim == 2
-    wx = w.shape[0]
-    assert wx == 1 and w.shape[1] == Nx
+    assert w.shape[0] == 1 and w.shape[1] == Nx
 
   if K == -1:
     K = np.sqrt(Nx)
@@ -113,3 +113,38 @@ cpdef model(np.ndarray[np.double_t, ndim=2] x,
             pd)
 
   return xc, Ak
+
+cpdef dval(np.ndarray[np.double_t, ndim=2] x,
+           np.ndarray[np.double_t, ndim=2] y,
+           np.ndarray w=np.empty([0, 0], dtype=np.double), double sigma=1):
+  """Evaluate weighted gaussian RBF between vectors x,y
+
+  Parameters
+  ----------
+  x:            Source data (d x Nx) numpy array
+  y:            Target data (d x Ny) numpy array
+  w:            Weigths (1 x Nx) numpy array ( default w = ones(1 , Nx) ) 
+  sigma:        Noise Standard deviation of the kernel (default sigma = 1)
+
+  Returns
+  -------
+
+  v             density (1 x Ny)
+  """
+
+  cdef int d, Nx, Ny
+  d  = x.shape[0]
+  Nx = x.shape[1]
+
+  assert d == y.shape[0]
+  Ny = y.shape[1]
+
+  if w.shape[0] == 0:
+    w = np.ones([1,Nx], dtype=np.double)
+  else:
+    assert w.dtype == np.double and w.ndim == 2
+    assert w.shape[0] == 1 and w.shape[1] == Nx
+
+  cdef np.ndarray[np.double_t, ndim=2] v = np.ndarray([1,Ny], dtype=np.double)
+  c_dval(<double*> x.data, <double*> y.data, <double*> w.data, sigma, <double*> v.data, d, Nx, Ny)
+  return v

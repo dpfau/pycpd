@@ -21,3 +21,6 @@ cdef extern from "fgt/fgt_model.h":
          int *, int *, int *, int *,
          double *, double *, int *, int *, double *, double *, 
          int)
+
+  cdef extern from "fgt/dval.h":
+    void dval(double *, double *, double *, double, double *, int, int, int)
