@@ -1,3 +1,7 @@
+#distutils: language = c
+#distutils: sources = src/fgt/fgt_model.c src/fgt/fgt_predict.c
+
+from fast_gaussian_transform cimport *
 import numpy as np
 cimport numpy as np
 
@@ -46,7 +50,7 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
 
 cpdef model(np.ndarray[np.double_t, ndim=2] x,
             np.ndarray w=None,
-            double sigma=1, double e=10, int K=None, int p=8):
+            double sigma=1, double e=10, int K=-1, int p=8):
   """model: returns the Fast Gauss Transform Aprroximation Model of a Kernel density
 
   Parameters
@@ -79,7 +83,7 @@ cpdef model(np.ndarray[np.double_t, ndim=2] x,
     wx = w.shape[0]
     assert wx == 1 and w.shape[1] == Nx
 
-  if K == None:
+  if K == -1:
     K = np.sqrt(Nx)
   else:
     assert K <= Nx

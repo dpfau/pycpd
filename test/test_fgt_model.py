@@ -55,9 +55,7 @@ def test_fgt_model_3():
   fig = plt.figure()
   ax = fig.gca(projection='3d')
   surf = ax.plot_surface(X, Y, density, rstride=1, cstride=1, cmap=cm.coolwarm,
-        linewidth=0, antialiased=False)
-
-  alpha(0.5);
+        linewidth=0, antialiased=False, alpha=0.5)
   ax.plot(x[1, :], x[2, :], 'r+', xc[1, :], xc[2, :], 'ko', ms=10)
 
   fig.colorbar(surf, shrink=0.5, aspect=5)
