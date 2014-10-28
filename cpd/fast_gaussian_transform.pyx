@@ -49,7 +49,7 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
   return v
 
 cpdef model(np.ndarray[np.double_t, ndim=2] x,
-            np.ndarray w=None,
+            np.ndarray w=np.empty([0, 0], dtype=np.double),
             double sigma=1, double e=10, int K=-1, int p=8):
   """model: returns the Fast Gauss Transform Aprroximation Model of a Kernel density
 
@@ -76,7 +76,7 @@ cpdef model(np.ndarray[np.double_t, ndim=2] x,
   d  = x.shape[0]
   Nx = x.shape[1]
 
-  if w == None:
+  if w.shape[0] == 0:
     w = np.ones([1,Nx], dtype=np.double)
   else:
     assert w.dtype == np.double and w.ndim == 2

@@ -7,7 +7,7 @@ from matplotlib import cm
 def test_fgt_model_1():
   d   = 3
   Nx  = 100
-  x   = np.random.randn((d, Nx))
+  x   = np.random.randn(d, Nx)
 
   xc, Ak = model(x)
 
@@ -15,9 +15,9 @@ def test_fgt_model_2():
   d  = 3
   Nx = 10
   Ny = 100
-  x  = np.random.randn((d, Nx))
-  y  = np.random.randn((d, Ny))
-  w  = np.random.rand((1 , Nx))
+  x  = np.random.randn(d, Nx)
+  y  = np.random.randn(d, Ny)
+  w  = np.random.rand(1 , Nx)
   h  = 2
 
   e  = 10
@@ -38,17 +38,20 @@ def test_fgt_model_3():
   K    = np.round(np.sqrt(Nx))
   p    = 6
 
-  vect = xrange(-5,5,0.3)
+  vect = np.arange(-5,5,0.3)
   Ny   = len(vect)
   w    = (1.0/Nx)*np.ones((1, Nx))
     
-  x    = (np.linalg.chol(R).transpose().dot(np.random.randn((d, Nx))))
+  x    = (np.linalg.cholesky(R).transpose().dot(np.random.randn(d, Nx)))
 
-  X, Y = np.meshgrid(vect)
-  y    = np.concatenate([X.flatten(), Y.flatten()]).transpose()
+  X, Y = np.meshgrid(vect, vect)
+  y    = np.zeros((d,Ny*Ny))
+
+  y[0,:] = X.flatten()
+  y[1,:] = Y.flatten()
 
   xc, Ak = model(x, w, h, e, K, p);
-  vy     = predict(y, xc, Ak, h, e, K, p);
+  vy     = predict(y, xc, Ak, h, e);
 
   density = vy.reshape((Ny, Ny));
 
@@ -56,7 +59,7 @@ def test_fgt_model_3():
   ax = fig.gca(projection='3d')
   surf = ax.plot_surface(X, Y, density, rstride=1, cstride=1, cmap=cm.coolwarm,
         linewidth=0, antialiased=False, alpha=0.5)
-  ax.plot(x[1, :], x[2, :], 'r+', xc[1, :], xc[2, :], 'ko', ms=10)
+  ax.plot(x[0, :], x[1, :], 'r+', xc[0, :], xc[1, :], 'ko', ms=10)
 
   fig.colorbar(surf, shrink=0.5, aspect=5)
   plt.show()
