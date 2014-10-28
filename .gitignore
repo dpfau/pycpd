@@ -1,0 +1,16 @@
+*.swp
+*.pyc
+.DS_Store
+/config.mk
+/build
+/release
+/relwithdebinfo
+/debug
+*.d
+*.prog
+*.dSYM
+/microscopes/io/schema_pb2.py
+/microscopes/**/*.cpp
+/microscopes/**/*.so
+/microscopes_common.egg-info
+/microscopes/common/githash.txt
