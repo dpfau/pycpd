@@ -5,6 +5,21 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
               np.ndarray[np.double_t, ndim=2] xc,
               np.ndarray[np.double_t, ndim=2] Ak,
               double sigma=1, double e=10):
+  """predict: returns the Fast Gauss Transform approximation of the test points y 
+              given the model \theta=(xc,A_k)
+
+  Parameters
+  ----------
+  y:      test point (d x Ny) numpy array
+  xc:     Kcenter point (d x K) numpy array
+  Ak:     Polynomial coefficient (pd x K), where pd = nchoosek(p+d-1, d)
+  sigma:  Noise Standard deviation of the kernel (default sigma = 1)
+  e:      Ratio of far field (default e = 10)
+
+  Returns
+  -------
+  v:      density (1 x Ny) numpy array
+  """
   cdef int d, pd, K, Ny
   cdef np.ndarray[np.double_t, ndim=1] dx, prods
   cdef np.ndarray[np.int_t, ndim=1] heads
@@ -32,6 +47,23 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
 cpdef model(np.ndarray[np.double_t, ndim=2] x,
             np.ndarray w=None,
             double sigma=1, double e=10, int K=None, int p=8):
+  """model: returns the Fast Gauss Transform Aprroximation Model of a Kernel density
+
+  Parameters
+  ----------
+  x:            Source data (d x Nx) numpy array
+  w:            Weigths (1 x Nx) numpy array ( default w = ones(1 , Nx) ) 
+  sigma:        Noise Standard deviation of the kernel (default sigma = 1)
+  e:            Ratio of far field (default e = 10)
+  K:            Number of centers (default K = sqrt(Nx))
+  p:            Order of truncation (default p = 8)
+
+  Returns
+  -------
+  xc:           The K center points of the training set (d x K) numpy array
+  Ak:           Polynomial coefficient (pd x K) numpy array, 
+                where pd = nchoosek(p + d - 1 , d) = prod(1:p + d - 1)/(prod(1:p - 1)*prod(1:d))
+  """
   cdef int d, Nx, wx, pd
   cdef np.ndarray[np.double_t, ndim=2] xc, Ak
   cdef np.ndarray[np.double_t, ndim=1] C_k, dist_C, dx, prods
