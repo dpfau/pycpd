@@ -1,96 +1,4 @@
 #include "fgt_predict.h"
-#include "mex.h"
-
-void mexFunction( int nlhs, mxArray *plhs[] , int nrhs, const mxArray *prhs[] )
-{	
-	double  *y , *xc , *A_k;
-	double sigma = 1.0 , e = 10.0;
-
-	double *v;
-	int d , pd , K , Ny;
-	const int  *dimsxc , *dimsA_k , *dimsy;
-		
-	int numdimsxc , numdimsA_k , numdimsy ;
-	int i , p ;
-
-
-	double  *dx , *prods;
-	int *heads;
-		
-	/* -------------------------- Parse INPUT  -------------------------------------- */
-	if ((nrhs < 3))
-	{
-		mexErrMsgTxt("Usage : v = fgt_predict(y , xc , A_k, [sigma] , [e] );"); 	
-	}
-
-
-	/* ----- Input 1 ----- */
-	y           = mxGetPr(prhs[0]);
-  numdimsy    = mxGetNumberOfDimensions(prhs[0]);
-	dimsy       = mxGetDimensions(prhs[0]);
-	d           = dimsy[0];
-	Ny          = dimsy[1];
-
-
-	/* ----- Input 2 ----- */
-	xc           = mxGetPr(prhs[1]);
-	numdimsxc    = mxGetNumberOfDimensions(prhs[1]);
-	dimsxc       = mxGetDimensions(prhs[1]);
-	
-	K            = dimsxc[1];
-
-	if (dimsxc[0] != d )
-	{
-		mexErrMsgTxt("xc must be (d x K)"); 	
-	}
-	
-	/* ----- Input 3 ----- */
-	A_k           = mxGetPr(prhs[2]);  
-  numdimsA_k    = mxGetNumberOfDimensions(prhs[2]);
-	dimsA_k       = mxGetDimensions(prhs[2]);
-	pd            = dimsA_k[0];
-
-	if (dimsA_k[1] != K )
-	{
-		mexErrMsgTxt("A_k must be (pd , K) where pd = nchoosek(p + d - 1 , d)"); 	
-	}
-
-	/* ----- Input 4 ----- */	
-	if (nrhs > 3)
-	{
-		sigma = (double)mxGetScalar(prhs[3]);	
-	}
-
-	/* ----- Input 5 ----- */
-	if (nrhs > 4)
-	{
-		e = (double)mxGetScalar(prhs[4]);	
-	}
-
-	/* -------------------------- Parse OUTPUT  ------------------------------------- */
-	
-	/* ----- output 1 ----- */
-	plhs[0]        = mxCreateDoubleMatrix(1 , Ny , mxREAL); 
-	v              = mxGetPr(plhs[0]);
-
-  dx             = (double *)mxMalloc(d*sizeof(double));
-
-  prods          = (double *)mxMalloc(pd*sizeof(double));
-
-  heads          = (int *)mxMalloc((d + 1)*sizeof(int));
-
-	/* ----------------------- MAIN CALL  -------------------------------------------- */	
-
-	fgt_predict(y , xc , A_k , Ny , sigma  , K , e , d , pd , 
-		        v , 
-			    dx , prods , heads);
-	
-	/* ------------ END of Mex File ---------------- */
-
-	mxFree(heads);
-	mxFree(dx);
-	mxFree(prods);
-}
 
 void fgt_predict(double *y , double *xc , double *A_k  , int Ny, double sigma , int K , double e , int d , int pd ,  
 			     double *v , 
@@ -98,7 +6,7 @@ void fgt_predict(double *y , double *xc , double *A_k  , int Ny, double sigma , 
 {
 	int p , i , j , m , k , t , tail , mbase , kn , xbase , head , ind;
 	double sum2 , ctesigma = 1.0/(sigma) , temp , temp1;
-	p              = invnchoosek(d , pd);
+	p = invnchoosek(d , pd);
 	for (m=0 ; m < Ny ; m++)
 	{	
 		temp    = 0.0;
