@@ -1,4 +1,4 @@
-#include "fgt_model.h"
+#include "fgt/fgt_model.h"
 
 void fgt_model(double *x , double *w , double sigma , int p , int K , double e ,
 			   double *xc , double *A_k ,

@@ -1,4 +1,4 @@
-#include "fgt_predict.h"
+#include "fgt/fgt_predict.h"
 
 void fgt_predict(double *y , double *xc , double *A_k  , int Ny, double sigma , int K , double e , int d , int pd ,  
 			     double *v , 

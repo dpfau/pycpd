@@ -5,21 +5,22 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
               np.ndarray[np.double_t, ndim=2] xc,
               np.ndarray[np.double_t, ndim=2] Ak,
               double sigma=1, double e=10):
-  cdef int d, xd, pd, AkK, K, Ny
+  cdef int d, pd, K, Ny
   cdef np.ndarray[np.double_t, ndim=1] dx, prods
   cdef np.ndarray[np.int_t, ndim=1] heads
 
-  d, Ny = y.shape
-  xd, K = xc.shape
-  assert d == xd
+  d  = y.shape[0]
+  Ny = y.shape[1]
+  K = xc.shape[1]
+  assert d == xc.shape[0]
 
-  pd, AkK = Ak.shape
-  assert AkK == K
+  pd = Ak.shape[0]
+  assert K == Ak.shape[1]
 
-  v = np.ndarray([1,Ny], dtype=np.double)
+  cdef np.ndarray[np.double_t, ndim=2] v = np.ndarray([1,Ny], dtype=np.double)
 
   dx    = np.ndarray([d], dtype=np.double)
-  probs = np.ndarray([pd], dtype=np.double)
+  prods = np.ndarray([pd], dtype=np.double)
   heads = np.ndarray([d+1], dtype=np.int)
 
   fgt_predict(<double*> y.data, <double*> xc.data, <double*> Ak.data, Ny, sigma, K, e, d, pd, 
@@ -29,25 +30,25 @@ cpdef predict(np.ndarray[np.double_t, ndim=2] y,
   return v
 
 cpdef model(np.ndarray[np.double_t, ndim=2] x,
-            np.ndarray[np.double_t, ndim=2] w=None,
+            np.ndarray w=None,
             double sigma=1, double e=10, int K=None, int p=8):
-  cdef int d, Nx
-  cdef int wx, wy
-  cdef int pd
+  cdef int d, Nx, wx, pd
   cdef np.ndarray[np.double_t, ndim=2] xc, Ak
   cdef np.ndarray[np.double_t, ndim=1] C_k, dist_C, dx, prods
   cdef np.ndarray[np.int_t, ndim=1] indxc, indx, xhead, xboxsz, heads, cinds
 
-  d, Nx = x.shape
+  d  = x.shape[0]
+  Nx = x.shape[1]
 
   if w == None:
     w = np.ones([1,Nx], dtype=np.double)
   else:
-    wx, wy = w.shape
-    assert wx == 1 and wy == Nx
+    assert w.dtype == np.double and w.ndim == 2
+    wx = w.shape[0]
+    assert wx == 1 and w.shape[1] == Nx
 
   if K == None:
-    K = sqrt(Nx)
+    K = np.sqrt(Nx)
   else:
     assert K <= Nx
 
