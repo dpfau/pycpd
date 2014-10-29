@@ -9,17 +9,15 @@ Andriy Myronenko
 #define	max(A, B)	((A) > (B) ? (A) : (B))
 #define	min(A, B)	((A) < (B) ? (A) : (B))
 
-void cpd_comp(
+void cpd_comp_correspondence(
 		double* x,
 		double* y, 
-        double* sigma2,
+    double* sigma2,
 		double* outlier,
-        double* Pc,
-        int N,
+    double* Pc,
+    int N,
 		int M,
-        int D
-        )
-
+    int D)
 {
   int		n, m, d;
   double	ksig, diff, razn, outlier_tmp,temp_x,sp;

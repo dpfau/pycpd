@@ -9,7 +9,7 @@ Andriy Myronenko
 #define	max(A, B)	((A) > (B) ? (A) : (B))
 #define	min(A, B)	((A) < (B) ? (A) : (B))
 
-void cpd_comp(
+void cpd_comp_default(
 		double* x,
 		double* y, 
         double* sigma2,
@@ -94,7 +94,7 @@ void cpd_comp(
 
 
 /* Gateway routine */
-void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
+void cpd_P( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 {
   double *x, *y, *sigma2, *outlier, *P1, *Pt1, *Px, *E;
   int     N, M, D;

@@ -9,21 +9,19 @@ Andriy Myronenko
 #define	max(A, B)	((A) > (B) ? (A) : (B))
 #define	min(A, B)	((A) < (B) ? (A) : (B))
 
-void cpd_comp(
+void cpd_comp_truncate(
 		double* x,
 		double* y, 
-        double* sigma2,
+    double* sigma2,
 		double* outlier,
-        double* P1,
-        double* Pt1,
-        double* Px,
-    	double* E,
-        int N,
+    double* P1,
+    double* Pt1,
+    double* Px,
+    double* E,
+    int N,
 		int M,
-        int D,
-        double* truncate
-        )
-
+    int D,
+    double* truncate)
 {
   int		n, m, d;
   double	ksig, diff, razn, outlier_tmp, sp;
