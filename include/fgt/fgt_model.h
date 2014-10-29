@@ -1,6 +1,6 @@
 /*  
-Author : S�bastien PARIS : sebastien.paris@lsis.org
-Adapted to Python by David PFAU : david.pfau@gmail.com
+  Author : S�bastien PARIS : sebastien.paris@lsis.org
+  Adapted to Python by David PFAU : david.pfau@gmail.com
 */
 
 #include <stdlib.h>

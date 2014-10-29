@@ -1,9 +1,7 @@
 /*
   Evaluate weighted gaussian RBF between vectors x,y
- 
   Author : Sébastien PARIS : sebastien.paris@lsis.org
   Modified for Python by David PFAU : david.pfau@gmail.com
-  -------
 */
 
 #include <math.h>

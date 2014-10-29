@@ -1,5 +1,5 @@
 /*
-  fgt_predict : returns the Fast Gauss Transform approximation of the test points y given the model \theta=(xc,A_k)
+  Fast Gauss Transform approximation of the test points y given the model \theta=(xc,A_k)
   Author : S�bastien PARIS : sebastien.paris@lsis.org
   Modified for Python by David PFAU : david.pfau@gmail.com
 */
