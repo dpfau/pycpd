@@ -72,7 +72,3 @@ int invnchoosek(int d , int cnk)
 	
 	return p;
 }
-
-
-
-

@@ -1,3 +1,5 @@
+#include "comp.h"
+
 void comp_p(
     double* x,
     double* y, 
